@@ -1,42 +1,157 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Smart Attendance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Attendance System - AI-powered face recognition for attendance tracking">
+    <meta name="keywords" content="attendance, face recognition, AI, biometric, tracking">
+    <meta name="author" content="Smart Attendance System">
+    <title>Smart Attendance System | AI-Powered Face Recognition</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="{{ url_for('static', filename='style.css') }}" as="style">
+    <link rel="preload" href="{{ url_for('static', filename='script.js') }}" as="script">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📸</text></svg>">
 </head>
 <body>
-    <h1>Smart Attendance System</h1>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="main-title">
+            <span class="title-icon">📸</span>
+            Smart Attendance System
+        </h1>
+        <p class="subtitle">AI-Powered Face Recognition for Seamless Attendance Tracking</p>
+    </header>
 
-    <div class="container">
-        <!-- LEFT CARD: RECOGNITION -->
-        <div class="section">
-            <h3>📸 Upload or Capture for Recognition</h3>
-            <form id="uploadForm" method="POST" enctype="multipart/form-data">
-                <input type="file" name="image" accept="image/*">
-                <button type="submit">Upload</button>
-            </form>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Recognition Section -->
+            <section class="section recognition-section" aria-labelledby="recognition-title">
+                <div class="section-header">
+                    <h2 id="recognition-title" class="section-title">
+                        <span class="section-icon">🔍</span>
+                        Face Recognition
+                    </h2>
+                    <p class="section-description">Upload an image or capture from camera to identify a person</p>
+                </div>
 
-            <video id="video" width="320" height="240" autoplay></video>
-            <button id="capture">Capture & Recognize</button>
-            <div id="result"></div>
+                <div class="form-container">
+                    <form id="uploadForm" method="POST" enctype="multipart/form-data" class="upload-form">
+                        <div class="input-group">
+                            <label for="image-upload" class="file-label">
+                                <span class="file-icon">📁</span>
+                                Choose Image File
+                            </label>
+                            <input type="file" id="image-upload" name="image" accept="image/*" class="file-input" aria-describedby="file-help">
+                            <small id="file-help" class="help-text">Supports JPG, PNG, GIF formats</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span class="btn-icon">⬆️</span>
+                            Upload & Recognize
+                        </button>
+                    </form>
+
+                    <div class="divider">
+                        <span class="divider-text">OR</span>
+                    </div>
+
+                    <div class="camera-section">
+                        <div class="video-container">
+                            <video id="video" width="320" height="240" autoplay muted playsinline aria-label="Camera preview for face recognition"></video>
+                            <div class="video-overlay">
+                                <div class="recording-indicator"></div>
+                            </div>
+                        </div>
+                        <button id="capture" class="btn btn-capture" aria-describedby="capture-help">
+                            <span class="btn-icon">📷</span>
+                            Capture & Recognize
+                        </button>
+                        <small id="capture-help" class="help-text">Click to capture current camera view</small>
+                    </div>
+                </div>
+
+                <div id="result" class="result-container" aria-live="polite" aria-atomic="true"></div>
+            </section>
+
+            <!-- Registration Section -->
+            <section class="section registration-section" aria-labelledby="registration-title">
+                <div class="section-header">
+                    <h2 id="registration-title" class="section-title">
+                        <span class="section-icon">👤</span>
+                        Face Registration
+                    </h2>
+                    <p class="section-description">Register a new person in the system</p>
+                </div>
+
+                <div class="form-container">
+                    <form id="registerForm" enctype="multipart/form-data" class="register-form">
+                        <div class="input-group">
+                            <label for="regName" class="text-label">Full Name</label>
+                            <input type="text" id="regName" name="name" placeholder="Enter full name" required class="text-input" aria-describedby="name-help">
+                            <small id="name-help" class="help-text">Enter the person's complete name</small>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="reg-image-upload" class="file-label">
+                                <span class="file-icon">📁</span>
+                                Choose Image File
+                            </label>
+                            <input type="file" id="reg-image-upload" name="image" accept="image/*" class="file-input" aria-describedby="reg-file-help">
+                            <small id="reg-file-help" class="help-text">Clear face photo recommended</small>
+                        </div>
+                        <button type="submit" class="btn btn-secondary">
+                            <span class="btn-icon">⬆️</span>
+                            Register by Upload
+                        </button>
+                    </form>
+
+                    <div class="divider">
+                        <span class="divider-text">OR</span>
+                    </div>
+
+                    <div class="camera-section">
+                        <div class="video-container">
+                            <video id="videoReg" width="320" height="240" autoplay muted playsinline aria-label="Camera preview for face registration"></video>
+                            <div class="video-overlay">
+                                <div class="recording-indicator"></div>
+                            </div>
+                        </div>
+                        <button id="captureReg" class="btn btn-capture" aria-describedby="capture-reg-help">
+                            <span class="btn-icon">📷</span>
+                            Capture & Register
+                        </button>
+                        <small id="capture-reg-help" class="help-text">Make sure name is entered above</small>
+                    </div>
+                </div>
+
+                <div id="registerResult" class="result-container" aria-live="polite" aria-atomic="true"></div>
+            </section>
         </div>
+    </main>
 
-        <!-- RIGHT CARD: REGISTRATION -->
-        <div class="section">
-            <h3>🧍 Register Your Face</h3>
-            <form id="registerForm" enctype="multipart/form-data">
-                <input type="text" name="name" id="regName" placeholder="Enter your name" required>
-                <input type="file" name="image" accept="image/*">
-                <button type="submit">Register by Upload</button>
-            </form>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 Smart Attendance System. Powered by AI Technology.</p>
+    </footer>
 
-            <video id="videoReg" width="320" height="240" autoplay></video>
-            <button id="captureReg">Capture & Register</button>
-
-            <div id="registerResult"></div>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" aria-hidden="true">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p class="loading-text">Processing...</p>
         </div>
     </div>
+
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light theme">
+        <span class="theme-icon">🌙</span>
+    </button>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
