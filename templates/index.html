@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Smart Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Smart Attendance System</h1>
+
+    <div class="container">
+        <!-- LEFT CARD: RECOGNITION -->
+        <div class="section">
+            <h3>📸 Upload or Capture for Recognition</h3>
+            <form id="uploadForm" method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/*">
+                <button type="submit">Upload</button>
+            </form>
+
+            <video id="video" width="320" height="240" autoplay></video>
+            <button id="capture">Capture & Recognize</button>
+            <div id="result"></div>
+        </div>
+
+        <!-- RIGHT CARD: REGISTRATION -->
+        <div class="section">
+            <h3>🧍 Register Your Face</h3>
+            <form id="registerForm" enctype="multipart/form-data">
+                <input type="text" name="name" id="regName" placeholder="Enter your name" required>
+                <input type="file" name="image" accept="image/*">
+                <button type="submit">Register by Upload</button>
+            </form>
+
+            <video id="videoReg" width="320" height="240" autoplay></video>
+            <button id="captureReg">Capture & Register</button>
+
+            <div id="registerResult"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
