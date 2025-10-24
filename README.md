@@ -43,11 +43,15 @@ The system registers faces of users, recognizes them in real-time, and logs thei
 8.Open the web interface in your browser at your local host to register users and mark attendance.
 
 ## Requirement Lib
-1.Flask==2.3.2
-2.opencv-python==4.12.0
-3.face_recognition==1.3.0
-4.numpy==1.25.2
-5.pandas==2.1.1
+1.Flask==2.3.2.
+
+2.opencv-python==4.12.0.
+
+3.face_recognition==1.3.0.
+
+4.numpy==1.25.2.
+
+5.pandas==2.1.1.
 
 
 
